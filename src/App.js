@@ -1,5 +1,5 @@
 import './App.scss';
-import AppRouter from './components/app-router/AppRouter';
+import AppRouter from './router/AppRouter';
 import Navigation from './components/navigation/Navigation';
 
 function App() {
