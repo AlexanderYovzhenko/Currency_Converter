@@ -43,9 +43,9 @@ function ConverterPage() {
   }, [query]);
 
   return (
-    <div className="Converter" onSubmit={(event) => handleSubmit(event)}>
+    <div className="Converter">
       <h1 className="converter-title">Конвертер</h1>
-      <form action="#" className="form">
+      <form action="#" className="form" onSubmit={(event) => handleSubmit(event)}>
         <label htmlFor="input" className="form__input">
           <input type="text"
             id="input" 
