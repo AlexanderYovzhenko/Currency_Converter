@@ -65,7 +65,7 @@ function ConverterPage() {
         </div>
       )}
       <div className="converter-result">
-        { error ? error : resultConvert && resultConvert.result && `${ Math.round(resultConvert.result * 10) / 10 } ${ resultConvert.query.to }` }
+        { error ? error : resultConvert && resultConvert.result && `${ Math.round(resultConvert.result * 100) / 100 } ${ resultConvert.query.to }` }
       </div>
     </div>
   );
