@@ -1,0 +1,15 @@
+.Navigation {
+  .navigation-menu {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    padding: 30px;
+    font-size: 20px;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,.2);
+
+    .link {
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+  }
+}

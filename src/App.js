@@ -1,14 +1,15 @@
 import './App.scss';
-import ConverterPage from './pages/ConverterPage';
+import AppRouter from './components/app-router/AppRouter';
+import Navigation from './components/navigation/Navigation';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>SPA для конвертирования валют</h1>
+        <Navigation />
       </header>
       <main>
-        <ConverterPage />
+        <AppRouter />
       </main>
     </div>
   );
