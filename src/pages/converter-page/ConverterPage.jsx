@@ -1,17 +1,46 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getConvert } from '../../api/queriesApiLayer';
+import LoadingAnimation from '../../components/loading-animation/LoadingAnimation';
+import { changeError, changePlaceholder } from '../../store/queriesApiLayerSlice';
 import './ConverterPage.scss';
 
 function ConverterPage() {
-  const [text, setText] = useState('');
+  const dispatch = useDispatch();
+  const { isLoading, error, resultConvert, placeholder } = useSelector((state) => state.queriesApiLayer);
+
+  const [query, setQuery] = useState('');
 
   const handleChange = (event) => {
-    setText(event.target.value);
+    setQuery(event.target.value);
   }
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setText('');
+
+    const queryArray = query.split(' ');
+    const queryAmount = queryArray[0];
+    const queryFrom = queryArray[1];
+    const queryTo = queryArray[3];
+    const queryParams = `?to=${queryTo}&from=${queryFrom}&amount=${queryAmount}`;
+
+    if (queryArray.length === 4) {
+      dispatch(getConvert(queryParams));
+    } else {
+      dispatch(changeError('The request was invalid!'))
+    };
+
+    setQuery('');
   }
+
+  useEffect(() => {
+    const queryArray = query.split(' ');
+    const placeholder = `${queryArray[0]} ${queryArray[1]} in ${queryArray[3]}`;
+       
+    if (queryArray.length === 4) {
+      dispatch(changePlaceholder(placeholder));
+    } 
+  }, [query]);
 
   return (
     <div className="Converter" onSubmit={(event) => handleSubmit(event)}>
@@ -21,14 +50,23 @@ function ConverterPage() {
           <input type="text"
             id="input" 
             placeholder="&nbsp;"
-            value={ text }
+            value={ query }
             onChange={(event) => handleChange(event)} 
           />
-          <span className="label">Конвертер</span>
+          <span className="label">
+            { placeholder } 
+          </span>
           <span className="focus-bg"></span>
         </label>
       </form>
-      <div className="converter-result">{ text }</div>
+      {isLoading && (
+        <div className="loader">
+          <LoadingAnimation />
+        </div>
+      )}
+      <div className="converter-result">
+        { error ? error : resultConvert && resultConvert.result && `${ Math.round(resultConvert.result * 10) / 10 } ${ resultConvert.query.to }` }
+      </div>
     </div>
   );
 }
