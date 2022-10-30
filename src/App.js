@@ -1,4 +1,5 @@
 import './App.scss';
+import ConverterPage from './pages/ConverterPage';
 
 function App() {
   return (
@@ -7,6 +8,7 @@ function App() {
         <h1>SPA для конвертирования валют</h1>
       </header>
       <main>
+        <ConverterPage />
       </main>
     </div>
   );
