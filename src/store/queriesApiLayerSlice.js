@@ -8,7 +8,8 @@ const initialState = {
   resultConvert: {},
   isLoading: false,
   error: null,
-  placeholder: '15 usd in rub' 
+  placeholder: '15 usd in rub',
+  defaultCurrency: '' 
 };
 
 export const queriesApiLayerSlice = createSlice({
@@ -21,6 +22,9 @@ export const queriesApiLayerSlice = createSlice({
     changeError(state, action) {
       state.error = action.payload;
     },
+    changeCurrency(state, action) {
+      state.defaultCurrency = action.payload;
+    }
   },
   extraReducers: {
     [getConvert.fulfilled.type]: (state, action) => {
@@ -42,6 +46,6 @@ export const queriesApiLayerSlice = createSlice({
   },
 });
 
-export const { changePlaceholder, changeError } = queriesApiLayerSlice.actions;
+export const { changePlaceholder, changeError, changeCurrency } = queriesApiLayerSlice.actions;
 
 export default queriesApiLayerSlice.reducer;
