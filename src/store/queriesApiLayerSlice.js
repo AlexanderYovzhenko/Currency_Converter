@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
-  getConvert,
+  getConvert, getConvertRub, getConvertUsd,
 } from '../api/queriesApiLayer';
 
 
@@ -9,7 +9,8 @@ const initialState = {
   isLoading: false,
   error: null,
   placeholder: '15 usd in rub',
-  defaultCurrency: '' 
+  defaultCurrency: '',
+  courses: []
 };
 
 export const queriesApiLayerSlice = createSlice({
@@ -40,6 +41,38 @@ export const queriesApiLayerSlice = createSlice({
     },
     [getConvert.rejected.type]: (state, action) => {
       state.resultConvert = {};
+      state.isLoading = false;
+      state.error = action.payload;
+    },
+    [getConvertRub.fulfilled.type]: (state, action) => {
+      state.isLoading = false;
+      state.error = '';
+      const { response } = action.payload;
+      state.courses = response;
+    },
+    [getConvertRub.pending.type]: (state) => {
+      state.courses = [];
+      state.error = '';
+      state.isLoading = true;
+    },
+    [getConvertRub.rejected.type]: (state, action) => {
+      state.courses = [];
+      state.isLoading = false;
+      state.error = action.payload;
+    },
+    [getConvertUsd.fulfilled.type]: (state, action) => {
+      state.isLoading = false;
+      state.error = '';
+      const { response } = action.payload;
+      state.courses = response;
+    },
+    [getConvertUsd.pending.type]: (state) => {
+      state.courses = [];
+      state.error = '';
+      state.isLoading = true;
+    },
+    [getConvertUsd.rejected.type]: (state, action) => {
+      state.courses = [];
       state.isLoading = false;
       state.error = action.payload;
     },

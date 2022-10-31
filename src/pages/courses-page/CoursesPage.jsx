@@ -1,13 +1,14 @@
 import './CoursesPage.scss';
 import Select from 'react-select';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeCurrency } from '../../store/queriesApiLayerSlice';
 import LoadingAnimation from '../../components/loading-animation/LoadingAnimation';
+import { getConvertRub, getConvertUsd } from '../../api/queriesApiLayer';
 
 function CoursesPage() {
   const dispatch = useDispatch();
-  const { isLoading, error, defaultCurrency } = useSelector((state) => state.queriesApiLayer);
+  const { isLoading, error, defaultCurrency, courses } = useSelector((state) => state.queriesApiLayer);
 
   const userLang = navigator.language || navigator.userLanguage;
   const options = [
@@ -20,7 +21,25 @@ function CoursesPage() {
   const handleChange = (event) => {
     setCurrency(event);
     dispatch(changeCurrency(event));
+
+    if (event.value === 'RUB') {
+      dispatch(getConvertRub());
+    } else {
+      dispatch(getConvertUsd());
+    };  
   }
+
+  useEffect(() => {
+    if ( courses.length ) {
+      return;
+    }
+
+    if (currency.value === 'RUB') {
+      dispatch(getConvertRub());
+    } else {
+      dispatch(getConvertUsd());
+    }; 
+  }, []);
 
   return (
     <div className="Courses">
@@ -37,8 +56,7 @@ function CoursesPage() {
         </div>) 
         : error ? error : 
         <ul className="courses-show">
-          <li className="courses-show__item">1 USD = 63.49 RUB</li>
-          <li className="courses-show__item">1 EUR = 72.20 RUB</li>
+          {courses.map((el, ind) => <li className="courses-show__item" key={ind}>{ `${el.query.amount} ${el.query.from} = ${Math.round(el.result * 100) / 100 } ${el.query.to}`}</li>)}
         </ul>
       }
     </div>
