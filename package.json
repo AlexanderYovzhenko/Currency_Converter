@@ -1,7 +1,7 @@
 {
-  "name": "my-app",
-  "homepage": "https://username.github.io/3205_Task",
-  "version": "0.1.0",
+  "name": "currency_converter",
+  "homepage": "https://username.github.io/Currency_Converter",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.6",
